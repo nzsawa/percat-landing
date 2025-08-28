@@ -389,8 +389,9 @@ function Footer() {
           <a href="#features" className="hover:text-white">Features</a>
           <a href="#how" className="hover:text-white">How it works</a>
           <a href="#faq" className="hover:text-white">FAQ</a>
-          <a href="#" className="hover:text-white">Privacy</a>
-          <a href="#" className="hover:text-white">Terms</a>
+          <a href="/privacy" className="hover:text-white">Privacy</a>
+          <a href="/terms" className="hover:text-white">Terms</a>
+          <a href="/deletion" className="hover:text-white">Deletion</a>
         </nav>
         <div className="text-xs text-white/50">© {new Date().getFullYear()} Percat, Inc.</div>
       </div>
@@ -413,4 +414,3 @@ export default function PercatLanding() {
     </main>
   );
 }
-
