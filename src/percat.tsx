@@ -1,5 +1,5 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useState, Suspense, lazy } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -17,10 +17,13 @@ import {
 } from "lucide-react";
 
 import { useClerk } from '@clerk/clerk-react'
+import { SectionLoading } from "./components/LoadingSpinner";
+import { LazyImage } from "./components/LazyImage";
 
 // Single-file landing page for percat.app
 // TailwindCSS + shadcn/ui + Framer Motion + Lucide icons
 // Drop-in as a React component. Add Tailwind in your build for styles.
+
 
 const features = [
   {
@@ -148,49 +151,49 @@ function Hero() {
                 <MockCard 
                   title="Mobility drills" 
                   tag="Wellness" 
-                  imageUrl="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop&crop=center"
+                  imageUrl="/stock-images/photo-1571019613454-1cb2f99b2d8b.jpeg"
                 />
                 <MockCard 
                   title="Pasta trick" 
                   tag="Cooking" 
-                  imageUrl="https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=400&h=300&fit=crop&crop=center"
+                  imageUrl="/stock-images/photo-1551183053-bf91a1d81141.jpeg"
                 />
               </div>
               {/* Row 2: 3 small tiles */}
               <div className="grid grid-cols-3 gap-2">
                 <MockTile 
                   label="Morning routine" 
-                  imageUrl="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=300&h=300&fit=crop&crop=center"
+                  imageUrl="/stock-images/photo-1506905925346-21bda4d32df4.jpeg"
                 />
                 <MockTile 
                   label="UI micro-interactions" 
-                  imageUrl="https://images.unsplash.com/photo-1551650975-87deedd944c3?w=300&h=300&fit=crop&crop=center"
+                  imageUrl="/stock-images/photo-1551650975-87deedd944c3.jpeg"
                 />
                 <MockTile 
                   label="Street style" 
-                  imageUrl="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=300&h=300&fit=crop&crop=center"
+                  imageUrl="/stock-images/photo-1441986300917-64674bd600d8.jpeg"
                 />
               </div>
               {/* Row 3: 2 wide cards */}
               <div className="grid grid-cols-2 gap-2">
                 <MockWide 
                   caption="'the reel with the blue mat'" 
-                  imageUrl="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=500&h=300&fit=crop&crop=center"
+                  imageUrl="/stock-images/photo-1571019613454-1cb2f99b2d8b (1)-500x300.jpeg"
                 />
                 <MockWide 
                   caption="'creator: ali fitness'" 
-                  imageUrl="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=500&h=300&fit=crop&crop=center"
+                  imageUrl="/stock-images/photo-1534438327276-14e5300c3a48.jpeg"
                 />
               </div>
               {/* Row 4: 2 more tiles to complete 7 images */}
               <div className="grid grid-cols-2 gap-2">
                 <MockTile 
                   label="Workout tips" 
-                  imageUrl="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=300&h=300&fit=crop&crop=center"
+                  imageUrl="/stock-images/photo-1517836357463-d25dfeac3438.jpeg"
                 />
                 <MockTile 
                   label="Recipe ideas" 
-                  imageUrl="https://images.unsplash.com/photo-1542010589005-d1eacc3918f2?w=300&h=300&fit=crop&crop=center"
+                  imageUrl="/stock-images/photo-1542010589005-d1eacc3918f2.jpeg"
                 />
               </div>
             </div>
@@ -211,10 +214,11 @@ function MockCard({ title, tag, imageUrl }: { title: string; tag: string; imageU
   return (
     <div className="relative overflow-hidden rounded-2xl bg-white/5">
       <div className="aspect-[4/3] w-full">
-        <img 
+        <LazyImage 
           src={imageUrl} 
           alt={title}
-          className="absolute inset-0 h-full w-full object-cover"
+          className="absolute inset-0 h-full w-full"
+          absolute={true}
         />
         <div className="absolute inset-0 bg-gradient-to-tr from-black/40 via-transparent to-transparent" />
       </div>
@@ -229,10 +233,11 @@ function MockCard({ title, tag, imageUrl }: { title: string; tag: string; imageU
 function MockTile({ label, imageUrl }: { label: string; imageUrl: string }) {
   return (
     <div className="relative flex aspect-square items-end overflow-hidden rounded-2xl bg-white/5">
-      <img 
+      <LazyImage 
         src={imageUrl} 
         alt={label}
-        className="absolute inset-0 h-full w-full object-cover"
+        className="absolute inset-0 h-full w-full"
+        absolute={true}
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
       <div className="relative w-full p-3 text-xs font-medium text-white">{label}</div>
@@ -243,10 +248,11 @@ function MockTile({ label, imageUrl }: { label: string; imageUrl: string }) {
 function MockWide({ caption, imageUrl }: { caption: string; imageUrl: string }) {
   return (
     <div className="relative flex aspect-[5/3] items-end overflow-hidden rounded-2xl bg-white/5">
-      <img 
+      <LazyImage 
         src={imageUrl} 
         alt={caption}
-        className="absolute inset-0 h-full w-full object-cover"
+        className="absolute inset-0 h-full w-full"
+        absolute={true}
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
       <div className="relative w-full p-3 text-xs italic text-white">{caption}</div>
@@ -322,40 +328,47 @@ function HowItWorks() {
         <div className="relative">
           <div className="relative aspect-video overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/10 to-white/5 shadow-xl">
             <div className="absolute inset-0 grid grid-cols-3 gap-2 p-3">
-              <img 
-                src="https://images.unsplash.com/photo-1544717297-fa95b6ee9643?w=200&h=150&fit=crop&crop=center"
+              <LazyImage 
+                src="/stock-images/photo-1544717297-fa95b6ee9643.jpeg"
                 alt="Travel content"
-                className="rounded-lg object-cover w-full h-full"
+                className="rounded-lg w-full h-full"
+                absolute={true}
               />
-              <img 
-                src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=200&h=150&fit=crop&crop=center"
+              <LazyImage 
+                src="/stock-images/photo-1558618666-fcd25c85cd64.jpeg"
                 alt="Art content"
-                className="rounded-lg object-cover w-full h-full"
+                className="rounded-lg w-full h-full"
+                absolute={true}
               />
-              <img 
-                src="https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=200&h=150&fit=crop&crop=center"
+              <LazyImage 
+                src="/stock-images/photo-1551698618-1dfe5d97d256.png"
                 alt="Music content"
-                className="rounded-lg object-cover w-full h-full"
+                className="rounded-lg w-full h-full"
+                absolute={true}
               />
-              <img 
-                src="https://images.unsplash.com/photo-1556075798-4825dfaaf498?w=400&h=150&fit=crop&crop=center"
+              <LazyImage 
+                src="/stock-images/photo-1556075798-4825dfaaf498.jpeg"
                 alt="Home decor content"
-                className="col-span-2 rounded-lg object-cover w-full h-full"
+                className="col-span-2 rounded-lg w-full h-full"
+                absolute={true}
               />
-              <img 
-                src="https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=200&h=150&fit=crop&crop=center"
+              <LazyImage 
+                src="/stock-images/photo-1542831371-29b0f74f9713.jpeg"
                 alt="Technology content"
-                className="rounded-lg object-cover w-full h-full"
+                className="rounded-lg w-full h-full"
+                absolute={true}
               />
-              <img 
-                src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=200&h=150&fit=crop&crop=center"
+              <LazyImage 
+                src="/stock-images/photo-1556909114-f6e7ad7d3136.jpeg"
                 alt="Nature content"
-                className="rounded-lg object-cover w-full h-full"
+                className="rounded-lg w-full h-full"
+                absolute={true}
               />
-              <img 
-                src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=150&fit=crop&crop=center"
+              <LazyImage 
+                src="/stock-images/photo-1556909114-f6e7ad7d3136 (1)-400x150.jpeg"
                 alt="Outdoor content"
-                className="col-span-2 rounded-lg object-cover w-full h-full"
+                className="col-span-2 rounded-lg w-full h-full"
+                absolute={true}
               />
             </div>
             <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black" />
@@ -385,24 +398,25 @@ function Showcase() {
         </div>
         <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
           {[
-            { image: "https://images.unsplash.com/photo-1544717297-fa95b6ee9643?w=300&h=400&fit=crop&crop=center", creator: "@traveler_jane" },
-            { image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&h=400&fit=crop&crop=center", creator: "@art_creator" },
-            { image: "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=300&h=400&fit=crop&crop=center", creator: "@music_pro" },
-            { image: "https://images.unsplash.com/photo-1556075798-4825dfaaf498?w=300&h=400&fit=crop&crop=center", creator: "@home_design" },
-            { image: "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=300&h=400&fit=crop&crop=center", creator: "@tech_guru" },
-            { image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=300&h=400&fit=crop&crop=center", creator: "@nature_lover" },
-            { image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&h=400&fit=crop&crop=center", creator: "@fitness_coach" },
-            { image: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=300&h=400&fit=crop&crop=center", creator: "@chef_mike" },
-            { image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=300&h=400&fit=crop&crop=center", creator: "@lifestyle_blog" },
-            { image: "https://images.unsplash.com/photo-1551650975-87deedd944c3?w=300&h=400&fit=crop&crop=center", creator: "@ui_designer" },
-            { image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=300&h=400&fit=crop&crop=center", creator: "@fashion_ista" },
-            { image: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=300&h=400&fit=crop&crop=center", creator: "@workout_pro" }
+            { image: "/stock-images/300x400-showcase/photo-1544717297-fa95b6ee9643 (1).jpeg", creator: "@traveler_jane" },
+            { image: "/stock-images/300x400-showcase/photo-1558618666-fcd25c85cd64 (1).jpeg", creator: "@art_creator" },
+            { image: "/stock-images/300x400-showcase/photo-1551698618-1dfe5d97d256 (1).png", creator: "@music_pro" },
+            { image: "/stock-images/300x400-showcase/photo-1556075798-4825dfaaf498 (1).jpeg", creator: "@home_design" },
+            { image: "/stock-images/300x400-showcase/photo-1542831371-29b0f74f9713 (1).jpeg", creator: "@tech_guru" },
+            { image: "/stock-images/300x400-showcase/photo-1556909114-f6e7ad7d3136 (2).jpeg", creator: "@nature_lover" },
+            { image: "/stock-images/300x400-showcase/photo-1571019613454-1cb2f99b2d8b (2).jpeg", creator: "@fitness_coach" },
+            { image: "/stock-images/300x400-showcase/photo-1551183053-bf91a1d81141 (1).jpeg", creator: "@chef_mike" },
+            { image: "/stock-images/300x400-showcase/photo-1506905925346-21bda4d32df4 (1).jpeg", creator: "@lifestyle_blog" },
+            { image: "/stock-images/300x400-showcase/photo-1551650975-87deedd944c3 (1).jpeg", creator: "@ui_designer" },
+            { image: "/stock-images/300x400-showcase/photo-1441986300917-64674bd600d8 (1).jpeg", creator: "@fashion_ista" },
+            { image: "/stock-images/300x400-showcase/photo-1517836357463-d25dfeac3438 (1).jpeg", creator: "@workout_pro" }
           ].map((item, i) => (
             <div key={i} className="group relative aspect-[3/4] overflow-hidden rounded-2xl border border-white/10 bg-white/5">
-              <img 
+              <LazyImage 
                 src={item.image} 
                 alt={`Content from ${item.creator}`}
-                className="absolute inset-0 h-full w-full object-cover"
+                className="absolute inset-0 h-full w-full"
+                absolute={true}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-2">
@@ -499,14 +513,22 @@ function Footer() {
   );
 }
 
+// Lazy load heavy components with many images
+const LazyHowItWorks = lazy(() => Promise.resolve({ default: HowItWorks }));
+const LazyShowcase = lazy(() => Promise.resolve({ default: Showcase }));
+
 export default function PercatLanding() {
   return (
     <main className="min-h-screen bg-black text-white">
       <Nav />
       <Hero />
       <Features />
-      <HowItWorks />
-      <Showcase />
+      <Suspense fallback={<SectionLoading />}>
+        <LazyHowItWorks />
+      </Suspense>
+      <Suspense fallback={<SectionLoading />}>
+        <LazyShowcase />
+      </Suspense>
       <Testimonials />
       <FAQ />
       <CTA />

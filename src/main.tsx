@@ -1,9 +1,10 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { createRoot } from "react-dom/client";
 import { PostHogProvider } from "posthog-js/react";
 import { ClerkProvider } from '@clerk/clerk-react'
 import "./index.css";
 import App from "./App";
+import { PageLoading } from "./components/LoadingSpinner";
 
 // Import your Publishable Key
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
@@ -25,7 +26,9 @@ root.render(
           debug: import.meta.env.MODE === "development",
         }}
       >
-        <App />
+        <Suspense fallback={<PageLoading />}>
+          <App />
+        </Suspense>
       </PostHogProvider>
     </ClerkProvider>
   </React.StrictMode>
