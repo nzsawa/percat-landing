@@ -81,7 +81,7 @@ function Logo() {
   return (
     <div className="flex items-center gap-2">
       <div className="relative h-7 w-7 overflow-hidden">
-        <img src="/public/logo.svg" alt="Percat" className="absolute left-1/2 top-1/2 h-8 w-8 -translate-x-1/2 -translate-y-1/2" />
+        <img src="/logo.svg" alt="Percat" className="absolute left-1/2 top-1/2 h-8 w-8 -translate-x-1/2 -translate-y-1/2" />
       </div>
       <span className="text-lg font-semibold tracking-tight">percat<span className="text-indigo-400">.app</span></span>
     </div>
