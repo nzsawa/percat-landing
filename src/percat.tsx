@@ -16,7 +16,7 @@ import {
   Video,
 } from "lucide-react";
 
-import { Clerk } from '@clerk/clerk-react'
+import { useClerk } from '@clerk/clerk-react'
 
 // Single-file landing page for percat.app
 // TailwindCSS + shadcn/ui + Framer Motion + Lucide icons
@@ -107,6 +107,7 @@ function Nav() {
 }
 
 function Hero() {
+  const Clerk = useClerk();
   return (
     <section className="relative">
       <GradientBlob />
@@ -125,7 +126,7 @@ function Hero() {
           </p>
           <div className="mt-8 flex max-w-md items-center gap-3">
             <Input placeholder="Enter your email" className="h-11 rounded-xl bg-white/5 placeholder:text-white/50" />
-            <Button className="h-11 rounded-xl px-5" onClick={() => Clerk.joinWaitlist('pach71@GMAIL.COM')}>Join waitlist</Button>
+            <Button className="h-11 rounded-xl px-5" onClick={() => Clerk.joinWaitlist({emailAddress: 'pach71@GMAIL.COM'})}>Join waitlist</Button>
           </div>
           <p className="mt-3 text-xs text-white/50">No spam. Early users get Pro perks.</p>
           <div className="mt-8 flex items-center gap-4 text-white/70">
