@@ -16,6 +16,8 @@ import {
   Video,
 } from "lucide-react";
 
+import { Clerk } from '@clerk/clerk-react'
+
 // Single-file landing page for percat.app
 // TailwindCSS + shadcn/ui + Framer Motion + Lucide icons
 // Drop-in as a React component. Add Tailwind in your build for styles.
@@ -78,10 +80,8 @@ function GradientBlob({ className = "" }: { className?: string }) {
 function Logo() {
   return (
     <div className="flex items-center gap-2">
-      <div className="relative h-7 w-7">
-        <span className="absolute inset-0 rounded-xl bg-gradient-to-br from-indigo-500 via-fuchsia-500 to-amber-400" />
-        <span className="absolute inset-[2px] rounded-lg bg-black" />
-        <Sparkles className="absolute left-1/2 top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 text-white" />
+      <div className="relative h-7 w-7 overflow-hidden">
+        <img src="/public/logo.svg" alt="Percat" className="absolute left-1/2 top-1/2 h-8 w-8 -translate-x-1/2 -translate-y-1/2" />
       </div>
       <span className="text-lg font-semibold tracking-tight">percat<span className="text-indigo-400">.app</span></span>
     </div>
@@ -125,7 +125,7 @@ function Hero() {
           </p>
           <div className="mt-8 flex max-w-md items-center gap-3">
             <Input placeholder="Enter your email" className="h-11 rounded-xl bg-white/5 placeholder:text-white/50" />
-            <Button className="h-11 rounded-xl px-5">Join waitlist</Button>
+            <Button className="h-11 rounded-xl px-5" onClick={() => Clerk.joinWaitlist('pach71@GMAIL.COM')}>Join waitlist</Button>
           </div>
           <p className="mt-3 text-xs text-white/50">No spam. Early users get Pro perks.</p>
           <div className="mt-8 flex items-center gap-4 text-white/70">
@@ -141,19 +141,56 @@ function Hero() {
           className="relative"
         >
           <div className="relative aspect-[4/5] w-full overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/10 to-white/5 p-3 shadow-2xl">
-            <div className="grid h-full grid-rows-3 gap-3">
-              <div className="grid grid-cols-2 gap-3">
-                <MockCard title="Mobility drills" tag="Wellness" />
-                <MockCard title="Pasta trick" tag="Cooking" />
+            <div className="grid h-full grid-rows-4 gap-2">
+              {/* Row 1: 2 large cards */}
+              <div className="grid grid-cols-2 gap-2">
+                <MockCard 
+                  title="Mobility drills" 
+                  tag="Wellness" 
+                  imageUrl="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop&crop=center"
+                />
+                <MockCard 
+                  title="Pasta trick" 
+                  tag="Cooking" 
+                  imageUrl="https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=400&h=300&fit=crop&crop=center"
+                />
               </div>
-              <div className="grid grid-cols-3 gap-3">
-                <MockTile label="Morning routine" />
-                <MockTile label="UI micro-interactions" />
-                <MockTile label="Street style" />
+              {/* Row 2: 3 small tiles */}
+              <div className="grid grid-cols-3 gap-2">
+                <MockTile 
+                  label="Morning routine" 
+                  imageUrl="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=300&h=300&fit=crop&crop=center"
+                />
+                <MockTile 
+                  label="UI micro-interactions" 
+                  imageUrl="https://images.unsplash.com/photo-1551650975-87deedd944c3?w=300&h=300&fit=crop&crop=center"
+                />
+                <MockTile 
+                  label="Street style" 
+                  imageUrl="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=300&h=300&fit=crop&crop=center"
+                />
               </div>
-              <div className="grid grid-cols-2 gap-3">
-                <MockWide caption="‘the reel with the blue mat’" />
-                <MockWide caption="‘creator: ali fitness’" />
+              {/* Row 3: 2 wide cards */}
+              <div className="grid grid-cols-2 gap-2">
+                <MockWide 
+                  caption="'the reel with the blue mat'" 
+                  imageUrl="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=500&h=300&fit=crop&crop=center"
+                />
+                <MockWide 
+                  caption="'creator: ali fitness'" 
+                  imageUrl="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=500&h=300&fit=crop&crop=center"
+                />
+              </div>
+              {/* Row 4: 2 more tiles to complete 7 images */}
+              <div className="grid grid-cols-2 gap-2">
+                <MockTile 
+                  label="Workout tips" 
+                  imageUrl="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=300&h=300&fit=crop&crop=center"
+                />
+                <MockTile 
+                  label="Recipe ideas" 
+                  imageUrl="https://images.unsplash.com/photo-1542010589005-d1eacc3918f2?w=300&h=300&fit=crop&crop=center"
+                />
               </div>
             </div>
             <div className="pointer-events-none absolute inset-x-0 -bottom-10 h-24 bg-gradient-to-t from-black to-transparent" />
@@ -169,33 +206,49 @@ function Hero() {
   );
 }
 
-function MockCard({ title, tag }: { title: string; tag: string }) {
+function MockCard({ title, tag, imageUrl }: { title: string; tag: string; imageUrl: string }) {
   return (
     <div className="relative overflow-hidden rounded-2xl bg-white/5">
-      <div className="absolute inset-0 bg-gradient-to-tr from-indigo-400/30 via-fuchsia-400/20 to-amber-300/20" />
-      <div className="aspect-[4/3] w-full" />
+      <div className="aspect-[4/3] w-full">
+        <img 
+          src={imageUrl} 
+          alt={title}
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-tr from-black/40 via-transparent to-transparent" />
+      </div>
       <div className="relative p-3">
-        <div className="text-xs text-white/60">{tag}</div>
-        <div className="truncate text-sm font-medium">{title}</div>
+        <div className="text-xs text-white/80 bg-black/30 rounded px-2 py-1 inline-block backdrop-blur-sm">{tag}</div>
+        <div className="truncate text-sm font-medium text-white mt-1">{title}</div>
       </div>
     </div>
   );
 }
 
-function MockTile({ label }: { label: string }) {
+function MockTile({ label, imageUrl }: { label: string; imageUrl: string }) {
   return (
-    <div className="flex aspect-square items-end overflow-hidden rounded-2xl bg-white/5">
-      <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/20 via-indigo-400/20 to-fuchsia-400/20" />
-      <div className="relative w-full p-3 text-xs font-medium">{label}</div>
+    <div className="relative flex aspect-square items-end overflow-hidden rounded-2xl bg-white/5">
+      <img 
+        src={imageUrl} 
+        alt={label}
+        className="absolute inset-0 h-full w-full object-cover"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+      <div className="relative w-full p-3 text-xs font-medium text-white">{label}</div>
     </div>
   );
 }
 
-function MockWide({ caption }: { caption: string }) {
+function MockWide({ caption, imageUrl }: { caption: string; imageUrl: string }) {
   return (
     <div className="relative flex aspect-[5/3] items-end overflow-hidden rounded-2xl bg-white/5">
-      <div className="absolute inset-0 bg-gradient-to-r from-emerald-400/20 via-sky-400/20 to-indigo-400/20" />
-      <div className="relative w-full p-3 text-xs italic text-white/80">{caption}</div>
+      <img 
+        src={imageUrl} 
+        alt={caption}
+        className="absolute inset-0 h-full w-full object-cover"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+      <div className="relative w-full p-3 text-xs italic text-white">{caption}</div>
     </div>
   );
 }
@@ -268,13 +321,41 @@ function HowItWorks() {
         <div className="relative">
           <div className="relative aspect-video overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/10 to-white/5 shadow-xl">
             <div className="absolute inset-0 grid grid-cols-3 gap-2 p-3">
-              <div className="rounded-lg bg-white/10" />
-              <div className="rounded-lg bg-white/10" />
-              <div className="rounded-lg bg-white/10" />
-              <div className="col-span-2 rounded-lg bg-white/10" />
-              <div className="rounded-lg bg-white/10" />
-              <div className="rounded-lg bg-white/10" />
-              <div className="col-span-2 rounded-lg bg-white/10" />
+              <img 
+                src="https://images.unsplash.com/photo-1544717297-fa95b6ee9643?w=200&h=150&fit=crop&crop=center"
+                alt="Travel content"
+                className="rounded-lg object-cover w-full h-full"
+              />
+              <img 
+                src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=200&h=150&fit=crop&crop=center"
+                alt="Art content"
+                className="rounded-lg object-cover w-full h-full"
+              />
+              <img 
+                src="https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=200&h=150&fit=crop&crop=center"
+                alt="Music content"
+                className="rounded-lg object-cover w-full h-full"
+              />
+              <img 
+                src="https://images.unsplash.com/photo-1556075798-4825dfaaf498?w=400&h=150&fit=crop&crop=center"
+                alt="Home decor content"
+                className="col-span-2 rounded-lg object-cover w-full h-full"
+              />
+              <img 
+                src="https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=200&h=150&fit=crop&crop=center"
+                alt="Technology content"
+                className="rounded-lg object-cover w-full h-full"
+              />
+              <img 
+                src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=200&h=150&fit=crop&crop=center"
+                alt="Nature content"
+                className="rounded-lg object-cover w-full h-full"
+              />
+              <img 
+                src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=150&fit=crop&crop=center"
+                alt="Outdoor content"
+                className="col-span-2 rounded-lg object-cover w-full h-full"
+              />
             </div>
             <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black" />
           </div>
@@ -302,12 +383,30 @@ function Showcase() {
           <Button variant="outline" className="rounded-xl border-white/20 bg-white/5">Open sample Space</Button>
         </div>
         <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
-          {Array.from({ length: 12 }).map((_, i) => (
+          {[
+            { image: "https://images.unsplash.com/photo-1544717297-fa95b6ee9643?w=300&h=400&fit=crop&crop=center", creator: "@traveler_jane" },
+            { image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&h=400&fit=crop&crop=center", creator: "@art_creator" },
+            { image: "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=300&h=400&fit=crop&crop=center", creator: "@music_pro" },
+            { image: "https://images.unsplash.com/photo-1556075798-4825dfaaf498?w=300&h=400&fit=crop&crop=center", creator: "@home_design" },
+            { image: "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=300&h=400&fit=crop&crop=center", creator: "@tech_guru" },
+            { image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=300&h=400&fit=crop&crop=center", creator: "@nature_lover" },
+            { image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&h=400&fit=crop&crop=center", creator: "@fitness_coach" },
+            { image: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=300&h=400&fit=crop&crop=center", creator: "@chef_mike" },
+            { image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=300&h=400&fit=crop&crop=center", creator: "@lifestyle_blog" },
+            { image: "https://images.unsplash.com/photo-1551650975-87deedd944c3?w=300&h=400&fit=crop&crop=center", creator: "@ui_designer" },
+            { image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=300&h=400&fit=crop&crop=center", creator: "@fashion_ista" },
+            { image: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=300&h=400&fit=crop&crop=center", creator: "@workout_pro" }
+          ].map((item, i) => (
             <div key={i} className="group relative aspect-[3/4] overflow-hidden rounded-2xl border border-white/10 bg-white/5">
-              <div className="absolute inset-0 bg-gradient-to-br from-indigo-400/10 via-fuchsia-400/10 to-amber-300/10 transition-opacity group-hover:opacity-100" />
+              <img 
+                src={item.image} 
+                alt={`Content from ${item.creator}`}
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-2">
-                <div className="truncate text-xs font-medium">Card {i + 1}</div>
-                <div className="text-[10px] text-white/60">@creator · 0:{(i % 6) + 9}</div>
+                <div className="truncate text-xs font-medium text-white">Saved content</div>
+                <div className="text-[10px] text-white/80">{item.creator} · 0:{(i % 6) + 9}</div>
               </div>
             </div>
           ))}
