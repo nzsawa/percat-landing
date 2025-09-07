@@ -126,7 +126,7 @@ function Hero() {
           </p>
           <div className="mt-8 flex max-w-md items-center gap-3">
             <Input placeholder="Enter your email" className="h-11 rounded-xl bg-white/5 placeholder:text-white/50" />
-            <Button className="h-11 rounded-xl px-5" onClick={() => Clerk.joinWaitlist({emailAddress: 'pach71@GMAIL.COM'})}>Join waitlist</Button>
+            <Button className="h-11 rounded-xl px-5" onClick={() => Clerk.joinWaitlist({emailAddress: 'pach.71@gmail.com'})}>Join waitlist</Button>
           </div>
           <p className="mt-3 text-xs text-white/50">No spam. Early users get Pro perks.</p>
           <div className="mt-8 flex items-center gap-4 text-white/70">
