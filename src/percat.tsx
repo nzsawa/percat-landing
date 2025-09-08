@@ -29,7 +29,7 @@ const features = [
   {
     icon: <BookMarked className="w-5 h-5" />,
     title: "Save anywhere",
-    desc: "One tap to save Reels, Posts, and TikToks. Add from web or share sheet.",
+    desc: "One tap to save Reels, Posts, and Stories. Add from links or share sheet.",
   },
   {
     icon: <FolderOpen className="w-5 h-5" />,
@@ -51,7 +51,7 @@ const features = [
 const faqs = [
   {
     q: "What platforms does Percat support?",
-    a: "Instagram Reels & Posts, TikTok, plus generic web links. More soon.",
+    a: "Instagram Reels & Posts, Stories, plus generic web links. More soon.",
   },
   {
     q: "How does the AI sorting work?",
@@ -125,7 +125,7 @@ function Hero() {
             Remember more than links
           </motion.h1>
           <p className="mt-5 text-pretty text-white/80">
-            Save reels & posts from Instagram and TikTok. Percat's AI sorts them—so you can find them later by describing what you remember.
+            Save reels & posts from Instagram and more. Percat's AI sorts them—so you can find them later by describing what you remember.
           </p>
           <div className="mt-8 flex max-w-md items-center gap-3">
             <Input placeholder="Enter your email" className="h-11 rounded-xl bg-white/5 placeholder:text-white/50" />
@@ -202,7 +202,7 @@ function Hero() {
           <div className="absolute -right-4 -top-4 flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-3 py-2 backdrop-blur">
             <Instagram className="h-4 w-4" />
             <Video className="h-4 w-4" />
-            <span className="text-xs text-white/80">Add from Instagram & TikTok</span>
+            <span className="text-xs text-white/80">Reels & Posts from Instagram</span>
           </div>
         </motion.div>
       </div>
