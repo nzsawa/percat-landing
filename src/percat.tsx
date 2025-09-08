@@ -63,7 +63,7 @@ const faqs = [
   },
   {
     q: "Can I import existing saves?",
-    a: "Yep. Import from your camera roll, notes, or a CSV of links.",
+    a: "No, we're focused on saving new content. Importing existing saves is on the roadmap.",
   },
 ];
 
