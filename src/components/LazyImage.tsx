@@ -7,6 +7,7 @@ interface LazyImageProps {
   className?: string;
   skeletonClassName?: string;
   absolute?: boolean;
+  containerAbsolute?: boolean;
   [key: string]: any;
 }
 
@@ -16,6 +17,7 @@ export function LazyImage({
   className = "", 
   skeletonClassName = "",
   absolute = false,
+  containerAbsolute = false,
   ...props 
 }: LazyImageProps) {
   const [isLoading, setIsLoading] = useState(true);
@@ -30,10 +32,10 @@ export function LazyImage({
     setHasError(true);
   };
 
-  // For absolute positioned images, don't add wrapper div
+  // For absolute positioned images, wrap in a relative container so it participates in layout (e.g., grid cells)
   if (absolute) {
     return (
-      <>
+      <div className={`${containerAbsolute ? 'absolute inset-0' : 'relative h-full w-full'} overflow-hidden ${className}`}>
         {/* Skeleton loading state */}
         <AnimatePresence>
           {isLoading && (
@@ -54,7 +56,7 @@ export function LazyImage({
           alt={alt}
           className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-300 ${
             isLoading ? 'opacity-0' : 'opacity-100'
-          } ${hasError ? 'opacity-50' : ''} ${className}`}
+          } ${hasError ? 'opacity-50' : ''}`}
           onLoad={handleLoad}
           onError={handleError}
           initial={{ opacity: 0, scale: 1.05 }}
@@ -81,7 +83,7 @@ export function LazyImage({
             </div>
           </motion.div>
         )}
-      </>
+      </div>
     );
   }
 

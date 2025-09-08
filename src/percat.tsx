@@ -177,8 +177,8 @@ function Hero() {
               {/* Row 3: 2 wide cards */}
               <div className="grid grid-cols-2 gap-2">
                 <MockWide 
-                  caption="'the reel with the blue mat'" 
-                  imageUrl="/stock-images/photo-1571019613454-1cb2f99b2d8b (1)-500x300.jpeg"
+                  caption="'Product roadmap'" 
+                  imageUrl="/stock-images/photo-1556075798-4825dfaaf498.jpeg"
                 />
                 <MockWide 
                   caption="'creator: ali fitness'" 
@@ -217,8 +217,9 @@ function MockCard({ title, tag, imageUrl }: { title: string; tag: string; imageU
         <LazyImage 
           src={imageUrl} 
           alt={title}
-          className="absolute inset-0 h-full w-full"
+          className="h-full w-full"
           absolute={true}
+          containerAbsolute={true}
         />
         <div className="absolute inset-0 bg-gradient-to-tr from-black/40 via-transparent to-transparent" />
       </div>
@@ -236,8 +237,9 @@ function MockTile({ label, imageUrl }: { label: string; imageUrl: string }) {
       <LazyImage 
         src={imageUrl} 
         alt={label}
-        className="absolute inset-0 h-full w-full"
+        className="h-full w-full"
         absolute={true}
+        containerAbsolute={true}
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
       <div className="relative w-full p-3 text-xs font-medium text-white">{label}</div>
@@ -251,8 +253,9 @@ function MockWide({ caption, imageUrl }: { caption: string; imageUrl: string }) 
       <LazyImage 
         src={imageUrl} 
         alt={caption}
-        className="absolute inset-0 h-full w-full"
+        className="h-full w-full"
         absolute={true}
+        containerAbsolute={true}
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
       <div className="relative w-full p-3 text-xs italic text-white">{caption}</div>
