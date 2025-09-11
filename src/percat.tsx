@@ -16,7 +16,6 @@ import {
   Video,
 } from "lucide-react";
 
-import { useClerk } from '@clerk/clerk-react'
 import { SectionLoading } from "./components/LoadingSpinner";
 import { LazyImage } from "./components/LazyImage";
 
@@ -101,7 +100,7 @@ function Nav() {
           <a href="#how" className="text-sm text-white/80 hover:text-white">How it works</a>
           <a href="#faq" className="text-sm text-white/80 hover:text-white">FAQ</a>
           <Button asChild className="rounded-xl">
-            <a href="#cta">Get early access</a>
+            <a href="https://apps.apple.com/us/app/percat/id6751758820" target="_blank" rel="noopener noreferrer">Download App</a>
           </Button>
         </div>
       </div>
@@ -110,7 +109,6 @@ function Nav() {
 }
 
 function Hero() {
-  const Clerk = useClerk();
   return (
     <section className="relative">
       <GradientBlob />
@@ -127,11 +125,12 @@ function Hero() {
           <p className="mt-5 text-pretty text-white/80">
             Save reels & posts from Instagram and more. Percat's AI sorts them—so you can find them later by describing what you remember.
           </p>
-          <div className="mt-8 flex max-w-md items-center gap-3">
-            <Input placeholder="Enter your email" className="h-11 rounded-xl bg-white/5 placeholder:text-white/50" />
-            <Button className="h-11 rounded-xl px-5" onClick={() => Clerk.joinWaitlist({emailAddress: 'pach.71@gmail.com'})}>Join waitlist</Button>
+          <div className="mt-8">
+            <Button asChild className="h-11 rounded-xl px-8 text-base">
+              <a href="https://apps.apple.com/us/app/percat/id6751758820" target="_blank" rel="noopener noreferrer">Download App on App Store</a>
+            </Button>
           </div>
-          <p className="mt-3 text-xs text-white/50">No spam. Early users get Pro perks.</p>
+          <p className="mt-3 text-xs text-white/50">Available now on iOS. Android coming soon.</p>
           <div className="mt-8 flex items-center gap-4 text-white/70">
             <div className="flex items-center gap-2 text-sm"><Check className="h-4 w-4" /> Private by default</div>
             <div className="flex items-center gap-2 text-sm"><Check className="h-4 w-4" /> One-tap saving</div>
@@ -440,14 +439,14 @@ function Testimonials() {
       <div className="mx-auto max-w-6xl px-4">
         <div className="mx-auto max-w-2xl text-center">
           <h3 className="text-2xl font-semibold tracking-tight md:text-3xl">Loved by collectors & creators</h3>
-          <p className="mt-2 text-white/70">Early users say Percat turns chaos into recallable knowledge.</p>
+          <p className="mt-2 text-white/70">Users say Percat turns chaos into recallable knowledge.</p>
         </div>
         <div className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-3">
           {["Percat finally makes my saved reels useful.", "I just describe what I remember. It finds it.", "Our team shares research minis in Spaces."].map((t, i) => (
             <Card key={i} className="border-white/10 bg-white/5">
               <CardContent className="p-6">
                 <p className="text-sm text-white/80">“{t}”</p>
-                <div className="mt-4 text-xs text-white/50">— Early Access User #{i + 1}</div>
+                <div className="mt-4 text-xs text-white/50">— User #{i + 1}</div>
               </CardContent>
             </Card>
           ))}
@@ -483,15 +482,16 @@ function CTA() {
     <section id="cta" className="relative border-t border-white/10 py-16 md:py-20">
       <GradientBlob />
       <div className="mx-auto max-w-2xl px-4 text-center">
-        <h3 className="text-3xl font-semibold tracking-tight md:text-4xl">Be first in line</h3>
+        <h3 className="text-3xl font-semibold tracking-tight md:text-4xl">Download Percat today</h3>
         <p className="mt-3 text-white/70">
-          Join the waitlist. We’ll invite in waves and gift Pro months to early users.
+          Start organizing your social media saves with AI-powered search and smart folders.
         </p>
-        <div className="mx-auto mt-6 flex max-w-md items-center gap-3">
-          <Input placeholder="you@domain.com" className="h-11 rounded-xl bg-white/5 placeholder:text-white/50" />
-          <Button className="h-11 rounded-xl px-5">Get invite</Button>
+        <div className="mt-6">
+          <Button asChild className="h-12 rounded-xl px-8 text-base">
+            <a href="https://apps.apple.com/us/app/percat/id6751758820" target="_blank" rel="noopener noreferrer">Download App on App Store</a>
+          </Button>
         </div>
-        <div className="mt-4 text-xs text-white/50">By signing up, you agree to our Terms & Privacy.</div>
+        <div className="mt-4 text-xs text-white/50">Available now on iOS. Android coming soon.</div>
       </div>
     </section>
   );
